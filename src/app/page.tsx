@@ -1,8 +1,13 @@
+import { Features } from "@/components/landing/features";
+import { Footer } from "@/components/landing/footer";
+import { Navbar } from "@/components/landing/navbar";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white">
+      <Navbar />
+
       <section className="mx-auto flex max-w-7xl flex-col items-center justify-center px-6 py-32 text-center">
         <div className="rounded-full border border-neutral-800 px-4 py-1 text-sm text-neutral-400">
           AI-Powered Mock Interviews
@@ -27,6 +32,10 @@ export default function Home() {
           </Button>
         </div>
       </section>
+
+      <Features />
+
+      <Footer />
     </main>
   );
 }
