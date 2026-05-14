@@ -28,6 +28,24 @@ export default function InterviewPage() {
     setCurrentQuestionIndex] =
     useState(0);
 
+  const [questionHistory,
+    setQuestionHistory] =
+    useState<string[]>([]);
+
+  const [answerHistory,
+    setAnswerHistory] =
+    useState<string[]>([]);
+
+  const [feedbackHistory,
+    setFeedbackHistory] =
+    useState<
+      {
+        score: number;
+        feedback: string;
+        improvedAnswer: string;
+      }[]
+    >([]);
+
   const params = useParams();
 
   const topic = params.id as string;
@@ -43,6 +61,10 @@ export default function InterviewPage() {
 
   const [loading, setLoading] =
     useState(true);
+
+  const [finishingInterview,
+    setFinishingInterview] =
+    useState(false);
 
   const [submitting, setSubmitting] =
     useState(false);
@@ -82,6 +104,10 @@ export default function InterviewPage() {
         }
 
         setQuestion(data.question);
+        setQuestionHistory((prev) => [
+          ...prev,
+          data.question,
+        ]);
       } catch (error) {
         console.error(error);
 
@@ -119,6 +145,17 @@ export default function InterviewPage() {
       }
 
       setEvaluation(data);
+
+      setAnswerHistory((prev) => [
+        ...prev,
+        answer,
+      ]);
+
+      setFeedbackHistory((prev) => [
+        ...prev,
+        data,
+      ]);
+
       setScores((prev) => [
         ...prev,
         data.score,
@@ -135,11 +172,11 @@ export default function InterviewPage() {
   async function handleNextQuestion() {
     setEvaluation(null);
 
+
+
     setAnswer("");
 
     setError("");
-
-    setLoading(true);
 
     const nextIndex =
       currentQuestionIndex + 1;
@@ -149,6 +186,7 @@ export default function InterviewPage() {
     );
 
     if (nextIndex >= 3) {
+      setFinishingInterview(true);
       const averageScore =
         scores.length > 0
           ? Math.round(
@@ -159,6 +197,8 @@ export default function InterviewPage() {
           )
           : 0;
 
+
+
       await saveInterview(
         averageScore
       );
@@ -167,6 +207,8 @@ export default function InterviewPage() {
 
       return;
     }
+
+    setLoading(true);
 
     const response = await fetch(
       "/api/interview",
@@ -188,6 +230,14 @@ export default function InterviewPage() {
     const data = await response.json();
 
     setQuestion(data.question);
+
+    setQuestionHistory((prev) => {
+      if (prev.includes(data.question)) {
+        return prev;
+      }
+
+      return [...prev, data.question];
+    });
 
     setLoading(false);
   }
@@ -273,6 +323,9 @@ export default function InterviewPage() {
           user_id: user.id,
           topic,
           score: finalScore,
+          questions: questionHistory,
+          answers: answerHistory,
+          feedback: feedbackHistory,
         });
     } catch (error) {
       console.error(error);
@@ -289,9 +342,11 @@ export default function InterviewPage() {
             </p>
 
             <h2 className="mt-4 text-2xl font-semibold">
-              {loading
-                ? "Generating question..."
-                : error || question}
+              {finishingInterview
+                ? "Generating Report Card..."
+                : loading
+                  ? "Generating question..."
+                  : error || question}
             </h2>
           </div>
 
@@ -353,11 +408,14 @@ export default function InterviewPage() {
                   onClick={
                     handleNextQuestion
                   }
-                  className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98]"
+                  className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={finishingInterview}
                 >
-                  {currentQuestionIndex >= 2
-                    ? "Finish Interview"
-                    : "Next Question"}
+                  {finishingInterview
+                    ? "Generating Report..."
+                    : currentQuestionIndex >= 2
+                      ? "Finish Interview"
+                      : "Next Question"}
                 </button>
               </div>
             </div>
