@@ -1,15 +1,35 @@
+import { MobileSidebar } from "@/components/dashboard/mobile-sidebar";
 import { Sidebar } from "@/components/dashboard/sidebar";
+import { UserMenu } from "@/components/dashboard/user-menu";
 
-export default function DashboardLayout({
+import { createClient } from "@/lib/supabase/server";
+
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <div className="flex min-h-screen bg-black text-white">
       <Sidebar />
 
       <main className="flex-1">
+        <header className="flex h-16 items-center border-b border-neutral-900 px-6">
+          <MobileSidebar />
+
+          <div className="ml-auto">
+            {user?.email && (
+              <UserMenu email={user.email} />
+            )}
+          </div>
+        </header>
+
         {children}
       </main>
     </div>

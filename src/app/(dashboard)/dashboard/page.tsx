@@ -1,15 +1,25 @@
-const cards = [
+import { InterviewCard } from "@/components/interview/interview-card";
+
+const interviews = [
   {
-    title: "Total Interviews",
-    value: "24",
+    title: "React Interview",
+    description:
+      "Practice React fundamentals, hooks, rendering, and performance.",
   },
   {
-    title: "Average Score",
-    value: "8.2",
+    title: "JavaScript Interview",
+    description:
+      "Prepare for closures, promises, async patterns, and core JS concepts.",
   },
   {
-    title: "Hours Practiced",
-    value: "18h",
+    title: "Next.js Interview",
+    description:
+      "Master App Router, SSR, caching, and modern Next.js architecture.",
+  },
+  {
+    title: "HR Interview",
+    description:
+      "Practice behavioral and communication interview questions.",
   },
 ];
 
@@ -18,28 +28,21 @@ export default function DashboardPage() {
     <div className="p-8">
       <div>
         <h1 className="text-3xl font-bold">
-          Dashboard
+          Interview Dashboard
         </h1>
 
         <p className="mt-2 text-neutral-400">
-          Track your interview preparation progress.
+          Choose an interview track and start practicing.
         </p>
       </div>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-3">
-        {cards.map((card) => (
-          <div
-            key={card.title}
-            className="rounded-2xl border border-neutral-900 bg-neutral-950 p-6"
-          >
-            <p className="text-sm text-neutral-400">
-              {card.title}
-            </p>
-
-            <h2 className="mt-4 text-3xl font-bold">
-              {card.value}
-            </h2>
-          </div>
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
+        {interviews.map((interview) => (
+          <InterviewCard
+            key={interview.title}
+            title={interview.title}
+            description={interview.description}
+          />
         ))}
       </div>
     </div>
