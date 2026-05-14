@@ -3,21 +3,25 @@ import { InterviewCard } from "@/components/interview/interview-card";
 const interviews = [
   {
     title: "React Interview",
+    topic: "react",
     description:
       "Practice React fundamentals, hooks, rendering, and performance.",
   },
   {
     title: "JavaScript Interview",
+    topic: "javascript",
     description:
       "Prepare for closures, promises, async patterns, and core JS concepts.",
   },
   {
     title: "Next.js Interview",
+    topic: "nextjs",
     description:
       "Master App Router, SSR, caching, and modern Next.js architecture.",
   },
   {
     title: "HR Interview",
+    topic: "hr",
     description:
       "Practice behavioral and communication interview questions.",
   },
@@ -42,6 +46,7 @@ export default function DashboardPage() {
             key={interview.title}
             title={interview.title}
             description={interview.description}
+            topic={interview.topic}
           />
         ))}
       </div>
