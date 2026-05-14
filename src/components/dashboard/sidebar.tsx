@@ -10,18 +10,22 @@ const links = [
   {
     label: "Dashboard",
     icon: LayoutDashboard,
+    href: "/dashboard",
   },
   {
     label: "Interviews",
     icon: Video,
+    href: "/interviews",
   },
   {
     label: "History",
     icon: History,
+    href: "/history",
   },
   {
     label: "Settings",
     icon: Settings,
+    href: "/history",
   },
 ];
 
@@ -56,13 +60,14 @@ export function Sidebar({
 
       <nav className="flex flex-1 flex-col gap-2 p-4">
         {links.map((link) => (
-          <button
+          <Link
+            href={link.href}
             key={link.label}
             className="flex items-center gap-3 rounded-xl px-4 py-3 text-left text-neutral-400 transition hover:bg-neutral-900 hover:text-white"
           >
             <link.icon className="h-5 w-5" />
             {link.label}
-          </button>
+          </Link>
         ))}
       </nav>
     </aside>

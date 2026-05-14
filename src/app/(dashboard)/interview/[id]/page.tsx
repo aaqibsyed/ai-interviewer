@@ -1,5 +1,7 @@
 "use client";
 
+import { createClient } from "@/lib/supabase/client";
+
 import { useEffect, useState } from "react";
 
 import { useParams } from "next/navigation";
@@ -147,7 +149,22 @@ export default function InterviewPage() {
     );
 
     if (nextIndex >= 3) {
+      const averageScore =
+        scores.length > 0
+          ? Math.round(
+            scores.reduce(
+              (a, b) => a + b,
+              0
+            ) / scores.length
+          )
+          : 0;
+
+      await saveInterview(
+        averageScore
+      );
+
       setInterviewComplete(true);
+
       return;
     }
 
@@ -236,6 +253,30 @@ export default function InterviewPage() {
         </div>
       </div>
     );
+  }
+
+  async function saveInterview(
+    finalScore: number
+  ) {
+    try {
+      const supabase = createClient();
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      await supabase
+        .from("interviews")
+        .insert({
+          user_id: user.id,
+          topic,
+          score: finalScore,
+        });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
