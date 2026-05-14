@@ -1,13 +1,26 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 interface InterviewCardProps {
   title: string;
 
   description: string;
+
+  topic: string;
 }
 
 export function InterviewCard({
   title,
   description,
+  topic,
 }: InterviewCardProps) {
+  const router = useRouter();
+
+  function handleStart() {
+    router.push(`/interview/${topic}`);
+  }
+
   return (
     <div className="rounded-2xl border border-neutral-900 bg-neutral-950 p-6">
       <h3 className="text-xl font-semibold">
@@ -18,7 +31,10 @@ export function InterviewCard({
         {description}
       </p>
 
-      <button className="mt-6 rounded-xl bg-white px-4 py-2 text-sm font-medium text-black">
+      <button
+        onClick={handleStart}
+        className="mt-6 rounded-xl bg-white px-4 py-2 text-sm font-medium text-black"
+      >
         Start Interview
       </button>
     </div>
