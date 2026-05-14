@@ -34,7 +34,6 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold">
           Interview Dashboard
         </h1>
-
         <p className="mt-2 text-neutral-400">
           Choose an interview track and start practicing.
         </p>

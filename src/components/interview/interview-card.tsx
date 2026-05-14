@@ -33,7 +33,8 @@ export function InterviewCard({
 
       <button
         onClick={handleStart}
-        className="mt-6 rounded-xl bg-white px-4 py-2 text-sm font-medium text-black"
+        className="mt-6 rounded-xl bg-white px-4 py-2 text-sm font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98]"
+        // className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98]"
       >
         Start Interview
       </button>
