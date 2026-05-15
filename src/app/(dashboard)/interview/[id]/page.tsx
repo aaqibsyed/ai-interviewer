@@ -5,6 +5,8 @@ import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Evaluation {
   score: number;
@@ -162,8 +164,8 @@ export default function InterviewPage() {
       ]);
     } catch (error) {
       console.error(error);
-
       setError("Evaluation failed.");
+      toast.error("Evaluation failed.")
     } finally {
       setSubmitting(false);
     }
@@ -203,8 +205,10 @@ export default function InterviewPage() {
         averageScore
       );
 
+      setFinishingInterview(false);
+      
       setInterviewComplete(true);
-
+      toast.success("Interview Completed :)")
       return;
     }
 
@@ -242,7 +246,9 @@ export default function InterviewPage() {
     setLoading(false);
   }
 
-  if (interviewComplete) {
+
+
+  if (interviewComplete || finishingInterview) {
     const averageScore =
       scores.length > 0
         ? Math.round(
@@ -256,48 +262,90 @@ export default function InterviewPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black p-8 text-white">
         <div className="w-full max-w-2xl rounded-2xl border border-neutral-900 bg-neutral-950 p-10">
-          <h1 className="text-4xl font-bold">
-            Interview Complete
-          </h1>
+          {finishingInterview ? (
+            <Skeleton className="h-10 w-72" />
+          ) : (
+            <h1 className="text-4xl font-bold">
+              Interview Complete
+            </h1>
+          )}
 
-          <p className="mt-4 text-neutral-400">
-            Great job completing the
-            interview session.
-          </p>
+          {finishingInterview ? (
+            <Skeleton className="mt-4 h-5 w-80" />
+          ) : (
+            <p className="mt-4 text-neutral-400">
+              Great job completing the
+              interview session.
+            </p>
+          )}
 
           <div className="mt-8 rounded-2xl border border-neutral-800 bg-black p-8 text-center">
-            <p className="text-sm text-neutral-500">
-              Overall Score
-            </p>
+            {finishingInterview ? (
+              <>
+                <Skeleton className="mx-auto h-4 w-32" />
 
-            <h2 className="mt-4 text-6xl font-bold">
-              {averageScore}/10
-            </h2>
+                <Skeleton className="mx-auto mt-6 h-16 w-40" />
+              </>
+            ) : (
+              <>
+                <p className="text-sm text-neutral-500">
+                  Overall Score
+                </p>
+
+                <h2 className="mt-4 text-6xl font-bold">
+                  {averageScore}/10
+                </h2>
+              </>
+            )}
           </div>
 
           <div className="mt-8 space-y-4">
             <div className="rounded-xl border border-neutral-800 bg-black p-4">
-              <h3 className="font-semibold">
-                Strengths
-              </h3>
+              {finishingInterview ? (
+                <>
+                  <Skeleton className="h-6 w-32" />
 
-              <p className="mt-2 text-neutral-400">
-                Strong conceptual
-                understanding and good
-                communication.
-              </p>
+                  <Skeleton className="mt-4 h-5 w-full" />
+
+                  <Skeleton className="mt-2 h-5 w-4/5" />
+                </>
+              ) : (
+                <>
+                  <h3 className="font-semibold">
+                    Strengths
+                  </h3>
+
+                  <p className="mt-2 text-neutral-400">
+                    Strong conceptual
+                    understanding and good
+                    communication.
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="rounded-xl border border-neutral-800 bg-black p-4">
-              <h3 className="font-semibold">
-                Areas To Improve
-              </h3>
+              {finishingInterview ? (
+                <>
+                  <Skeleton className="h-6 w-40" />
 
-              <p className="mt-2 text-neutral-400">
-                Add more real-world
-                examples and improve
-                answer structure.
-              </p>
+                  <Skeleton className="mt-4 h-5 w-full" />
+
+                  <Skeleton className="mt-2 h-5 w-3/4" />
+                </>
+              ) : (
+                <>
+                  <h3 className="font-semibold">
+                    Areas To Improve
+                  </h3>
+
+                  <p className="mt-2 text-neutral-400">
+                    Add more real-world
+                    examples and improve
+                    answer structure.
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -341,84 +389,102 @@ export default function InterviewPage() {
               AI Interviewer
             </p>
 
-            <h2 className="mt-4 text-2xl font-semibold">
-              {finishingInterview
-                ? "Generating Report Card..."
-                : loading
-                  ? "Generating question..."
+            {loading ? (
+              <div className="mt-4 space-y-3">
+                <Skeleton className="h-8 w-full" />
+
+                <Skeleton className="h-8 w-3/4" />
+              </div>
+            ) : (
+              <h2 className="mt-4 text-2xl font-semibold">
+                {finishingInterview
+                  ? "Generating Report Card..."
                   : error || question}
-            </h2>
+              </h2>
+            )}
           </div>
 
-          <textarea
-            disabled={!!evaluation}
-            placeholder="Type your answer..."
-            value={answer}
-            onChange={(e) =>
-              setAnswer(e.target.value)
-            }
-            className="mt-6 min-h-50 w-full rounded-2xl border border-neutral-800 bg-black p-4 outline-none disabled:cursor-not-allowed disabled:opacity-60"
-          />
+          {loading ? (
+            <div className="mt-6 space-y-4">
+              <Skeleton className="h-50 w-full rounded-2xl" />
 
-          {!evaluation ? (
-            <div className="mt-6 flex justify-end">
-              <button
-                onClick={handleSubmit}
-                disabled={
-                  submitting || !answer
-                }
-                className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
-              >
-                {submitting
-                  ? "Evaluating..."
-                  : "Submit Answer"}
-              </button>
+              <div className="flex justify-end">
+                <Skeleton className="h-12 w-40 rounded-xl" />
+              </div>
             </div>
           ) : (
-            <div className="mt-8 rounded-2xl border border-neutral-800 bg-black p-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-semibold">
-                  Feedback
-                </h3>
+            <>
+              <textarea
+                placeholder="Type your answer..."
+                value={answer}
+                onChange={(e) =>
+                  setAnswer(e.target.value)
+                }
+                disabled={!!evaluation}
+                className="mt-6 min-h-50 w-full rounded-2xl border border-neutral-800 bg-black p-4 outline-none disabled:cursor-not-allowed disabled:opacity-60"
+              />
 
-                <div className="rounded-full bg-white px-4 py-2 text-sm font-bold text-black">
-                  Score:{" "}
-                  {evaluation.score}/10
+              {!evaluation ? (
+                <div className="mt-6 flex justify-end">
+                  <button
+                    onClick={handleSubmit}
+                    disabled={
+                      submitting || !answer
+                    }
+                    className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+                  >
+                    {submitting
+                      ? "Evaluating..."
+                      : "Submit Answer"}
+                  </button>
                 </div>
-              </div>
+              ) : (
+                <div className="mt-8 rounded-2xl border border-neutral-800 bg-black p-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-semibold">
+                      Feedback
+                    </h3>
 
-              <p className="mt-4 text-neutral-300">
-                {evaluation.feedback}
-              </p>
+                    <div className="rounded-full bg-white px-4 py-2 text-sm font-bold text-black">
+                      Score:{" "}
+                      {evaluation.score}/10
+                    </div>
+                  </div>
 
-              <div className="mt-6 rounded-xl border border-neutral-800 bg-neutral-950 p-4">
-                <p className="text-sm text-neutral-500">
-                  Improved Answer
-                </p>
+                  <p className="mt-4 text-neutral-300">
+                    {evaluation.feedback}
+                  </p>
 
-                <p className="mt-2 text-neutral-300">
-                  {
-                    evaluation.improvedAnswer
-                  }
-                </p>
-              </div>
+                  <div className="mt-6 rounded-xl border border-neutral-800 bg-neutral-950 p-4">
+                    <p className="text-sm text-neutral-500">
+                      Improved Answer
+                    </p>
 
-              <div className="mt-6 flex justify-end">
-                <button
-                  onClick={
-                    handleNextQuestion
-                  }
-                  className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
-                  disabled={finishingInterview}
-                >
-                  {finishingInterview
-                    ? "Generating Report..."
-                    : currentQuestionIndex >= 2
-                      ? "Finish Interview"
-                      : "Next Question"}
-                </button>
-              </div>
-            </div>
+                    <p className="mt-2 text-neutral-300">
+                      {
+                        evaluation.improvedAnswer
+                      }
+                    </p>
+                  </div>
+
+                  <div className="mt-6 flex justify-end">
+                    <button
+                      onClick={
+                        handleNextQuestion
+                      }
+                      className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                      disabled={finishingInterview}
+                    >
+                      {finishingInterview
+                        ? "Generating Report..."
+                        : currentQuestionIndex >= 2
+                          ? "Finish Interview"
+                          : "Next Question"}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

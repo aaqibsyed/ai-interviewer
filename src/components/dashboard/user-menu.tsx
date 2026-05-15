@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 export function UserMenu({
   email,
@@ -17,6 +18,7 @@ export function UserMenu({
     await supabase.auth.signOut();
 
     router.push("/login");
+    toast.success("Logged out successfully!")
     router.refresh();
   }
 

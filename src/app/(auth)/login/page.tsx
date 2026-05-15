@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -27,11 +28,14 @@ export default function LoginPage() {
         setLoading(false);
 
         if (error) {
-            alert(error.message);
+            toast.error(error.message);
             return;
         }
 
         router.push("/dashboard");
+        toast.success(
+            "Logged in successfully"
+        );
     }
 
     return (
