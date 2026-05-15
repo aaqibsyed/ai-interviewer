@@ -25,7 +25,7 @@ const links = [
   {
     label: "Settings",
     icon: Settings,
-    href: "/history",
+    href: "/settings",
   },
 ];
 

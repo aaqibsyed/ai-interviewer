@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function SignupPage() {
     const router = useRouter();
@@ -24,15 +25,15 @@ export default function SignupPage() {
             password,
         });
 
-         setLoading(false);
+        setLoading(false);
+
+        // if (error) {
+        //     toast.error(error.message);
+        //     return;
+        // }
 
         if (error) {
-            alert(error.message);
-            return;
-        }
-
-        if (error) {
-            alert(error.message);
+            toast.error(error.message);
             setLoading(false);
             return;
         }
@@ -41,15 +42,18 @@ export default function SignupPage() {
             data.user?.identities &&
             data.user.identities.length === 0
         ) {
-            alert("Account already exists. Please login.");
+            toast.error("Account already exists. Please login.");
             setLoading(false);
             return;
         }
 
-       
+
 
         //    router.push("/confirm-email");
         router.push("/dashboard")
+        toast.success(
+            "Account created successfully"
+        );
     }
 
     return (

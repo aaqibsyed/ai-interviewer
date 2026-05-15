@@ -4,6 +4,7 @@ import { createClient }
 import Link from "next/link";
 
 export default async function HistoryPage() {
+
     const supabase =
         await createClient();
 
