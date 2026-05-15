@@ -1,5 +1,6 @@
 import { createClient }
     from "@/lib/supabase/server";
+import Link from "next/link";
 
 export default async function HistoryPage() {
     const supabase =
@@ -84,9 +85,10 @@ export default async function HistoryPage() {
                     <div className="mt-8 grid gap-4">
                         {interviews?.map(
                             (interview) => (
-                                <div
+                                <Link
+                                    href={`/history/${interview.id}`}
                                     key={interview.id}
-                                    className="rounded-2xl border border-neutral-900 bg-neutral-950 p-6"
+                                    className="rounded-2xl border border-neutral-900 bg-neutral-950 p-6 transition hover:border-neutral-700 hover:bg-neutral-900 hover:scale-[1.01]"
                                 >
                                     <div className="flex items-center justify-between">
                                         <div>
@@ -111,7 +113,7 @@ export default async function HistoryPage() {
                                             /10
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         )}
                     </div>)}
