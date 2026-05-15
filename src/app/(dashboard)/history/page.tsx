@@ -1,3 +1,4 @@
+import { ProgressChart } from "@/components/history/progress-chart";
 import { createClient }
     from "@/lib/supabase/server";
 import Link from "next/link";
@@ -18,6 +19,25 @@ export default async function HistoryPage() {
             .order("created_at", {
                 ascending: false,
             });
+
+    const chartData =
+        (interviews ?? [])
+            .slice()
+            .reverse()
+            .map(
+                (
+                    interview,
+                    index
+                ) => ({
+                    label: `#${index + 1}`,
+
+                    score: interview.score,
+
+                    date: new Date(
+                        interview.created_at
+                    ).toLocaleDateString(),
+                })
+            );
 
     return (
         <div className="p-8 text-white">
@@ -65,6 +85,12 @@ export default async function HistoryPage() {
                             "-"}
                     </h2>
                 </div>
+            </div>
+
+            <div className="mt-8">
+                <ProgressChart
+                    data={chartData}
+                />
             </div>
 
             {interviews?.length === 0 && (
