@@ -9,7 +9,11 @@ import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
+import { getNextQuestion } from "@/lib/question-engine";
+import { questions } from "@/data/questions";
+import { evaluateAnswer } from "@/lib/evaluate-answer";
 
+const TOTAL_QUESTIONS = 5;
 interface Evaluation {
   score: number;
 
@@ -50,6 +54,11 @@ export default function InterviewPage() {
       }[]
     >([]);
 
+  const [
+    currentKeywords,
+    setCurrentKeywords,
+  ] = useState<string[]>([]);
+
   const params = useParams();
 
   const topic = params.id as string;
@@ -81,39 +90,68 @@ export default function InterviewPage() {
       try {
         setLoading(true);
 
-        const response = await fetch(
-          "/api/interview",
-          {
-            method: "POST",
+        // const response = await fetch(
+        //   "/api/interview",
+        //   {
+        //     method: "POST",
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
+        //     headers: {
+        //       "Content-Type":
+        //         "application/json",
+        //     },
 
-            body: JSON.stringify({
-              topic,
-              index: currentQuestionIndex,
-            }),
-          }
-        );
+        //     body: JSON.stringify({
+        //       topic,
+        //       index: currentQuestionIndex,
+        //     }),
+        //   }
+        // );
 
-        const data = await response.json();
+        // const data = await response.json();
 
-        if (!response.ok) {
-          throw new Error(
-            data.error ||
-            "Failed to generate question"
+        // if (!response.ok) {
+        //   throw new Error(
+        //     data.error ||
+        //     "Failed to generate question"
+        //   );
+        // }
+
+        const nextQuestion =
+          getNextQuestion({
+            topic:
+              params.id as keyof typeof questions,
+
+            previousScore:
+              scores[
+              scores.length - 1
+              ],
+
+            usedQuestions:
+              questionHistory,
+          });
+
+        if (!nextQuestion) {
+          setError(
+            "No more questions available."
           );
+
+          return;
         }
 
-        setQuestion(data.question);
+        setQuestion(
+          nextQuestion.question
+        );
+
+        setCurrentKeywords(
+          nextQuestion.keywords
+        );
+
         setQuestionHistory((prev) => {
-          if (prev.includes(data.question)) {
+          if (prev.includes(nextQuestion.question)) {
             return prev;
           }
 
-          return [...prev, data.question];
+          return [...prev, nextQuestion.question];
         });
       } catch (error) {
         console.error(error);
@@ -135,37 +173,61 @@ export default function InterviewPage() {
     try {
       setSubmitting(true);
 
-      const response = await fetch(
-        "/api/evaluate",
-        {
-          method: "POST",
-        }
-      );
+      // const response = await fetch(
+      //   "/api/evaluate",
+      //   {
+      //     method: "POST",
+      //   }
+      // );
 
-      const data = await response.json();
+      // const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(
-          data.error ||
-          "Evaluation failed"
-        );
-      }
+      // if (!response.ok) {
+      //   throw new Error(
+      //     data.error ||
+      //     "Evaluation failed"
+      //   );
+      // }
 
-      setEvaluation(data);
+      // setEvaluation(data);
+
+      // setAnswerHistory((prev) => [
+      //   ...prev,
+      //   answer,
+      // ]);
+
+      // setFeedbackHistory((prev) => [
+      //   ...prev,
+      //   data,
+      // ]);
+
+      // setScores((prev) => [
+      //   ...prev,
+      //   data.score,
+      // ]);
+
+      const result =
+        evaluateAnswer({
+          answer,
+          keywords:
+            currentKeywords,
+        });
+
+      setEvaluation(result);
 
       setAnswerHistory((prev) => [
         ...prev,
         answer,
       ]);
 
-      setFeedbackHistory((prev) => [
-        ...prev,
-        data,
-      ]);
-
       setScores((prev) => [
         ...prev,
-        data.score,
+        result.score,
+      ]);
+
+      setFeedbackHistory((prev) => [
+        ...prev,
+        result,
       ]);
     } catch (error) {
       console.error(error);
@@ -192,7 +254,56 @@ export default function InterviewPage() {
       nextIndex
     );
 
-    if (nextIndex >= 3) {
+    setLoading(true)
+
+    const nextQuestion =
+      getNextQuestion({
+        topic:
+          topic as keyof typeof questions,
+
+        previousScore:
+          scores[
+          scores.length - 1
+          ],
+
+        usedQuestions:
+          questionHistory,
+      });
+
+    if (!nextQuestion) {
+      setError(
+        "No more questions available."
+      );
+
+      return;
+    }
+
+    setQuestion(
+      nextQuestion.question
+    );
+
+    setLoading(false)
+
+    setCurrentKeywords(
+      nextQuestion.keywords
+    );
+
+    setQuestionHistory((prev) => {
+      if (
+        prev.includes(
+          nextQuestion.question
+        )
+      ) {
+        return prev;
+      }
+
+      return [
+        ...prev,
+        nextQuestion.question,
+      ];
+    });
+
+    if (nextIndex >= TOTAL_QUESTIONS) {
       setFinishingInterview(true);
       const averageScore =
         scores.length > 0
@@ -217,38 +328,38 @@ export default function InterviewPage() {
       return;
     }
 
-    setLoading(true);
+    // setLoading(true);
 
-    const response = await fetch(
-      "/api/interview",
-      {
-        method: "POST",
+    // const response = await fetch(
+    //   "/api/interview",
+    //   {
+    //     method: "POST",
 
-        headers: {
-          "Content-Type":
-            "application/json",
-        },
+    //     headers: {
+    //       "Content-Type":
+    //         "application/json",
+    //     },
 
-        body: JSON.stringify({
-          topic,
-          index: nextIndex,
-        }),
-      }
-    );
+    //     body: JSON.stringify({
+    //       topic,
+    //       index: nextIndex,
+    //     }),
+    //   }
+    // );
 
-    const data = await response.json();
+    // const data = await response.json();
 
-    setQuestion(data.question);
+    // setQuestion(nextQuestion.question);
 
-    setQuestionHistory((prev) => {
-      if (prev.includes(data.question)) {
-        return prev;
-      }
+    // setQuestionHistory((prev) => {
+    //   if (prev.includes(nextQuestion.question)) {
+    //     return prev;
+    //   }
 
-      return [...prev, data.question];
-    });
+    //   return [...prev, nextQuestion.question];
+    // });
 
-    setLoading(false);
+    // setLoading(false);
   }
 
 
@@ -481,7 +592,7 @@ export default function InterviewPage() {
                       className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                       loading={finishingInterview}
                     >
-                      {currentQuestionIndex >= 2
+                      {currentQuestionIndex >= TOTAL_QUESTIONS - 1
                         ? "Finish Interview"
                         : "Next Question"}
                     </Button>
