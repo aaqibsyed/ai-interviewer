@@ -75,9 +75,9 @@ export default function LoginPage() {
                     <Button
                         type="submit"
                         className="w-full"
-                        disabled={loading}
+                        loading={loading}
                     >
-                        {loading ? "Loading..." : "Login"}
+                        Login
                     </Button>
 
                     <p className="text-center text-sm text-neutral-400">

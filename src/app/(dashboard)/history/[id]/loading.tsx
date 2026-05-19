@@ -3,17 +3,17 @@ from "@/components/ui/skeleton";
 
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-black p-8 text-white">
+    <div className="min-h-screen bg-black p-4 text-white sm:p-8">
       <div className="mx-auto max-w-5xl">
-        <div className="rounded-2xl border border-neutral-900 bg-neutral-950 p-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <Skeleton className="h-10 w-72" />
+        <div className="rounded-2xl border border-neutral-900 bg-neutral-950 p-6 sm:p-8">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="w-full">
+              <Skeleton className="h-10 w-full max-w-sm" />
 
-              <Skeleton className="mt-4 h-5 w-80" />
+              <Skeleton className="mt-4 h-5 w-full max-w-md" />
             </div>
 
-            <Skeleton className="h-14 w-24 rounded-full" />
+            <Skeleton className="h-14 w-24 rounded-full shrink-0" />
           </div>
         </div>
 
@@ -23,7 +23,7 @@ export default function Loading() {
           }).map((_, index) => (
             <div
               key={index}
-              className="rounded-2xl border border-neutral-900 bg-neutral-950 p-8"
+              className="rounded-2xl border border-neutral-900 bg-neutral-950 p-6 sm:p-8"
             >
               <div>
                 <Skeleton className="h-4 w-24" />
@@ -44,10 +44,10 @@ export default function Loading() {
               </div>
 
               <div className="mt-8">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-4">
                   <Skeleton className="h-4 w-28" />
 
-                  <Skeleton className="h-10 w-16 rounded-full" />
+                  <Skeleton className="h-10 w-16 rounded-full shrink-0" />
                 </div>
 
                 <div className="mt-3 rounded-xl border border-neutral-800 bg-black p-5">

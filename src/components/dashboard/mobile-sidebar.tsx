@@ -5,18 +5,21 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 import { Sidebar } from "./sidebar";
+import { Button } from "../ui/button";
 
 export function MobileSidebar() {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <button
+      <Button
+        variant="outline"
+        size="lg"
         onClick={() => setOpen(true)}
-        className="md:hidden"
+        className="h-10 w-10 p-0 md:hidden"
       >
-        <Menu className="h-6 w-6 text-white" />
-      </button>
+        <Menu className="h-5 w-5 text-white" />
+      </Button>
 
       {open && (
         <div className="fixed inset-0 z-50 flex">
@@ -29,12 +32,13 @@ export function MobileSidebar() {
             onClick={() => setOpen(false)}
           />
 
-          <button
+          <Button
+            variant="outline"
             onClick={() => setOpen(false)}
             className="absolute right-4 top-4"
           >
             <X className="h-6 w-6 text-white" />
-          </button>
+          </Button>
         </div>
       )}
     </>
