@@ -1,4 +1,6 @@
 import { ProgressChart } from "@/components/history/progress-chart";
+import { Card, CardContent } from "@/components/ui/card";
+import { StatCard } from "@/components/ui/stat-card";
 import { createClient }
     from "@/lib/supabase/server";
 import Link from "next/link";
@@ -46,46 +48,28 @@ export default async function HistoryPage() {
                 Interview History
             </h1>
 
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-                <div className="rounded-2xl border border-neutral-900 bg-neutral-950 p-6">
-                    <p className="text-sm text-neutral-500">
-                        Total Interviews
-                    </p>
+            <div className="mt-8 grid gap-4 md:grid-cols-3">                
+                <StatCard
+                    label="Total Interviews"
+                    value={interviews?.length || 0}
+                />
 
-                    <h2 className="mt-4 text-4xl font-bold">
-                        {interviews?.length || 0}
-                    </h2>
-                </div>
-
-                <div className="rounded-2xl border border-neutral-900 bg-neutral-950 p-6">
-                    <p className="text-sm text-neutral-500">
-                        Average Score
-                    </p>
-
-                    <h2 className="mt-4 text-4xl font-bold">
-                        {interviews?.length
-                            ? Math.round(
-                                interviews.reduce(
-                                    (acc, item) =>
-                                        acc + item.score,
-                                    0
-                                ) / interviews.length
-                            )
-                            : 0}
-                        /10
-                    </h2>
-                </div>
-
-                <div className="rounded-2xl border border-neutral-900 bg-neutral-950 p-6">
-                    <p className="text-sm text-neutral-500">
-                        Latest Topic
-                    </p>
-
-                    <h2 className="mt-4 text-2xl font-bold capitalize">
-                        {interviews?.[0]?.topic ||
-                            "-"}
-                    </h2>
-                </div>
+                <StatCard
+                    label="Average Score"
+                    value={`${interviews?.length
+                                ? Math.round(
+                                    interviews.reduce(
+                                        (acc, item) =>
+                                            acc + item.score,
+                                        0
+                                    ) / interviews.length
+                                )
+                                : 0}/10`}
+                />
+                <StatCard
+                    label="Latest Topic"
+                    value= {interviews?.[0]?.topic || "-"}
+                />
             </div>
 
             <div className="mt-8">

@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { PageHeader } from "@/components/ui/page-header";
 
 interface Evaluation {
   score: number;
@@ -106,10 +108,13 @@ export default function InterviewPage() {
         }
 
         setQuestion(data.question);
-        setQuestionHistory((prev) => [
-          ...prev,
-          data.question,
-        ]);
+        setQuestionHistory((prev) => {
+          if (prev.includes(data.question)) {
+            return prev;
+          }
+
+          return [...prev, data.question];
+        });
       } catch (error) {
         console.error(error);
 
@@ -206,7 +211,7 @@ export default function InterviewPage() {
       );
 
       setFinishingInterview(false);
-      
+
       setInterviewComplete(true);
       toast.success("Interview Completed :)")
       return;
@@ -265,9 +270,9 @@ export default function InterviewPage() {
           {finishingInterview ? (
             <Skeleton className="h-10 w-72" />
           ) : (
-            <h1 className="text-4xl font-bold">
-              Interview Complete
-            </h1>
+            // <h1 className="text-4xl font-bold">
+            <PageHeader title="Interview Complete" />
+            // </h1>
           )}
 
           {finishingInterview ? (
@@ -371,7 +376,11 @@ export default function InterviewPage() {
           user_id: user.id,
           topic,
           score: finalScore,
-          questions: questionHistory,
+          questions:
+            questionHistory.slice(
+              0,
+              answerHistory.length
+            ),
           answers: answerHistory,
           feedback: feedbackHistory,
         });
@@ -426,17 +435,14 @@ export default function InterviewPage() {
 
               {!evaluation ? (
                 <div className="mt-6 flex justify-end">
-                  <button
+                  <Button
                     onClick={handleSubmit}
-                    disabled={
-                      submitting || !answer
-                    }
-                    className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+                    disabled={!answer}
+                    loading={submitting}
+                  // className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
                   >
-                    {submitting
-                      ? "Evaluating..."
-                      : "Submit Answer"}
-                  </button>
+                    Submit Answer
+                  </Button>
                 </div>
               ) : (
                 <div className="mt-8 rounded-2xl border border-neutral-800 bg-black p-6">
@@ -468,19 +474,17 @@ export default function InterviewPage() {
                   </div>
 
                   <div className="mt-6 flex justify-end">
-                    <button
+                    <Button
                       onClick={
                         handleNextQuestion
                       }
                       className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:scale-[1.02] hover:bg-neutral-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
-                      disabled={finishingInterview}
+                      loading={finishingInterview}
                     >
-                      {finishingInterview
-                        ? "Generating Report..."
-                        : currentQuestionIndex >= 2
-                          ? "Finish Interview"
-                          : "Next Question"}
-                    </button>
+                      {currentQuestionIndex >= 2
+                        ? "Finish Interview"
+                        : "Next Question"}
+                    </Button>
                   </div>
                 </div>
               )}

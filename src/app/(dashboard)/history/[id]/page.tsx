@@ -8,6 +8,7 @@ import Link from "next/link";
 
 import { ArrowLeft }
     from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 export default async function ReportPage({
     params,
@@ -43,7 +44,8 @@ export default async function ReportPage({
 
                     Back to History
                 </Link>
-                <div className="rounded-2xl border border-neutral-900 bg-neutral-950 p-8">
+                {/* <div className="rounded-2xl border border-neutral-900 bg-neutral-950 p-8"> */}
+                <Card className="p-8">
                     <div className="flex items-center justify-between">
                         <div>
                             <h1 className="text-4xl font-bold capitalize">
@@ -66,7 +68,8 @@ export default async function ReportPage({
                             {interview.score}/10
                         </div>
                     </div>
-                </div>
+                    </Card>
+                {/* </div> */}
 
                 <div className="mt-8 space-y-6">
                     {interview.questions?.length ? (
@@ -88,8 +91,9 @@ export default async function ReportPage({
                                 return (
                                     <div
                                         key={index}
-                                        className="rounded-2xl border border-neutral-900 bg-neutral-950 p-8"
+                                        // className="rounded-2xl border border-neutral-900 bg-neutral-950 p-8"
                                     >
+                                        <Card className="p-8">
                                         <div>
                                             <p className="text-sm text-neutral-500">
                                                 Question{" "}
@@ -119,7 +123,7 @@ export default async function ReportPage({
 
                                                 <div className="rounded-full bg-white px-4 py-2 text-sm font-bold text-black">
                                                     {
-                                                        feedback.score
+                                                        feedback?.score
                                                     }
                                                     /10
                                                 </div>
@@ -127,7 +131,7 @@ export default async function ReportPage({
 
                                             <div className="mt-3 rounded-xl border border-neutral-800 bg-black p-5 text-neutral-300">
                                                 {
-                                                    feedback.feedback
+                                                    feedback?.feedback
                                                 }
                                             </div>
                                         </div>
@@ -139,10 +143,11 @@ export default async function ReportPage({
 
                                             <div className="mt-3 rounded-xl border border-neutral-800 bg-black p-5 text-neutral-300">
                                                 {
-                                                    feedback.improvedAnswer
+                                                    feedback?.improvedAnswer
                                                 }
                                             </div>
                                         </div>
+                                        </Card>
                                     </div>
                                 );
                             }

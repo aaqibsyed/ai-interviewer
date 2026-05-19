@@ -1,4 +1,7 @@
 import * as React from "react";
+
+import { Loader2 }
+  from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
@@ -27,20 +30,36 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+  VariantProps<typeof buttonVariants> {
+  loading?: boolean;
+}
 
 export function Button({
   className,
   variant,
   size,
+  loading,
+  children,
+  disabled,
   ...props
 }: ButtonProps) {
   return (
     <button
       className={cn(
-        buttonVariants({ variant, size, className })
+        buttonVariants({
+          variant,
+          size,
+          className,
+        })
       )}
+      disabled={disabled || loading}
       {...props}
-    />
+    >
+      {loading && (
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      )}
+
+      {children}
+    </button>
   );
 }
