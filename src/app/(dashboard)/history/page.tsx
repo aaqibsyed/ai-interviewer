@@ -1,9 +1,9 @@
 import { ProgressChart } from "@/components/history/progress-chart";
-import { Card, CardContent } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
 import { createClient }
     from "@/lib/supabase/server";
 import Link from "next/link";
+import { HistoryList } from "./history-list";
 
 export default async function HistoryPage() {
 
@@ -48,7 +48,7 @@ export default async function HistoryPage() {
                 Interview History
             </h1>
 
-            <div className="mt-8 grid gap-4 md:grid-cols-3">                
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
                 <StatCard
                     label="Total Interviews"
                     value={interviews?.length || 0}
@@ -57,18 +57,18 @@ export default async function HistoryPage() {
                 <StatCard
                     label="Average Score"
                     value={`${interviews?.length
-                                ? Math.round(
-                                    interviews.reduce(
-                                        (acc, item) =>
-                                            acc + item.score,
-                                        0
-                                    ) / interviews.length
-                                )
-                                : 0}/10`}
+                        ? Math.round(
+                            interviews.reduce(
+                                (acc, item) =>
+                                    acc + item.score,
+                                0
+                            ) / interviews.length
+                        )
+                        : 0}/10`}
                 />
                 <StatCard
                     label="Latest Topic"
-                    value= {interviews?.[0]?.topic || "-"}
+                    value={interviews?.[0]?.topic || "-"}
                 />
             </div>
 
@@ -91,7 +91,7 @@ export default async function HistoryPage() {
                 </div>
             )}
 
-            {interviews &&
+            {/* {interviews &&
                 interviews.length > 0 && (
                     <div className="mt-8 grid gap-4">
                         {interviews?.map(
@@ -127,7 +127,10 @@ export default async function HistoryPage() {
                                 </Link>
                             )
                         )}
-                    </div>)}
+                    </div>)} */}
+            <HistoryList
+                interviews={interviews ?? []}
+            />
         </div>
     );
 }
