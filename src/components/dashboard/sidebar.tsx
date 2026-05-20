@@ -13,9 +13,9 @@ const links = [
     href: "/dashboard",
   },
   {
-    label: "Interviews",
+    label: "Interview",
     icon: Video,
-    href: "/interviews",
+    href: "/interview",
   },
   {
     label: "History",
@@ -31,10 +31,12 @@ const links = [
 
 interface SidebarProps {
   mobile?: boolean;
+  onNavigate?: () => void;
 }
 
 export function Sidebar({
   mobile,
+  onNavigate
 }: SidebarProps) {
   return (
     <aside
@@ -64,6 +66,7 @@ export function Sidebar({
             href={link.href}
             key={link.label}
             className="flex items-center gap-3 rounded-xl px-4 py-3 text-left text-neutral-400 transition hover:bg-neutral-900 hover:text-white"
+            onClick={onNavigate}
           >
             <link.icon className="h-5 w-5" />
             {link.label}

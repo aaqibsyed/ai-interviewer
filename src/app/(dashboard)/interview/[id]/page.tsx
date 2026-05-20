@@ -375,6 +375,35 @@ export default function InterviewPage() {
         )
         : 0;
 
+    let strengths = "";
+    let improvements = "";
+
+    if (averageScore >= 8) {
+      strengths =
+        "Excellent conceptual understanding, strong technical knowledge, and clear communication.";
+
+      improvements =
+        "Focus on advanced concepts, edge cases, and deeper architectural discussions.";
+    } else if (averageScore >= 6) {
+      strengths =
+        "Good understanding of core concepts and solid problem-solving ability.";
+
+      improvements =
+        "Provide more detailed explanations and include practical examples in answers.";
+    } else if (averageScore >= 4) {
+      strengths =
+        "Basic understanding of important concepts and willingness to explain ideas.";
+
+      improvements =
+        "Strengthen foundational concepts and improve answer clarity and completeness.";
+    } else {
+      strengths =
+        "Demonstrated effort in attempting the questions.";
+
+      improvements =
+        "Review core fundamentals, practice more interview questions, and focus on key concepts.";
+    }
+
     return (
       <div className="flex min-h-screen items-center justify-center bg-black p-8 text-white">
         <div className="w-full max-w-2xl rounded-2xl border border-neutral-900 bg-neutral-950 p-10">
@@ -432,9 +461,7 @@ export default function InterviewPage() {
                   </h3>
 
                   <p className="mt-2 text-neutral-400">
-                    Strong conceptual
-                    understanding and good
-                    communication.
+                    {strengths}
                   </p>
                 </>
               )}
@@ -456,9 +483,7 @@ export default function InterviewPage() {
                   </h3>
 
                   <p className="mt-2 text-neutral-400">
-                    Add more real-world
-                    examples and improve
-                    answer structure.
+                    {improvements}
                   </p>
                 </>
               )}

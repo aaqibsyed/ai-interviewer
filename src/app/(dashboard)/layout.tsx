@@ -3,6 +3,7 @@ import { Sidebar } from "@/components/dashboard/sidebar";
 import { UserMenu } from "@/components/dashboard/user-menu";
 
 import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
   children,
@@ -14,6 +15,12 @@ export default async function DashboardLayout({
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect(
+      "/login"
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-black text-white">

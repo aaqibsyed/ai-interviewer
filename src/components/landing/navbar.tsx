@@ -14,9 +14,12 @@ export async function Navbar() {
   return (
     <header className="border-b border-neutral-900">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <div className="text-lg font-semibold">
+        <Link
+          href="/"
+          className="text-lg font-semibold"
+        >
           AI Interviewer
-        </div>
+        </Link>
 
         <nav className="hidden gap-6 text-sm text-neutral-400 md:flex">
           <a href="#">Features</a>
@@ -49,13 +52,20 @@ export async function Navbar() {
             </div>
           </div>
         ) : (
-          <Link href="/login">
-            <Button variant="outline">
-              Login
-            </Button>
-          </Link>
+          <div className="flex gap-2">
+            <Link href="/login">
+              <Button variant="outline">
+                Login
+              </Button>
+            </Link>
+            <Link href="/signup">
+              <Button variant="outline">
+                Signup
+              </Button>
+            </Link>
+          </div>
         )}
       </div>
-    </header>
+    </header >
   );
 }
