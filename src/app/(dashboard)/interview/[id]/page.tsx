@@ -146,13 +146,11 @@ export default function InterviewPage() {
           nextQuestion.keywords
         );
 
-        setQuestionHistory((prev) => {
-          if (prev.includes(nextQuestion.question)) {
-            return prev;
-          }
+        setQuestion(nextQuestion.question);
 
-          return [...prev, nextQuestion.question];
-        });
+        setQuestionHistory([
+          nextQuestion.question,
+        ]);
       } catch (error) {
         console.error(error);
 
@@ -241,8 +239,6 @@ export default function InterviewPage() {
   async function handleNextQuestion() {
     setEvaluation(null);
 
-
-
     setAnswer("");
 
     setError("");
@@ -250,11 +246,50 @@ export default function InterviewPage() {
     const nextIndex =
       currentQuestionIndex + 1;
 
+    // Finish interview BEFORE generating another question
+    if (nextIndex >= TOTAL_QUESTIONS) {
+      setFinishingInterview(true);
+
+      const averageScore =
+        scores.length > 0
+          ? Math.round(
+            scores.reduce(
+              (a, b) => a + b,
+              0
+            ) / scores.length
+          )
+          : 0;
+
+      console.log(
+        "Questions:",
+        questionHistory
+      );
+
+      console.log(
+        "Answers:",
+        answerHistory
+      );
+
+      await saveInterview(
+        averageScore
+      );
+
+      setFinishingInterview(false);
+
+      setInterviewComplete(true);
+
+      toast.success(
+        "Interview Completed :)"
+      );
+
+      return;
+    }
+
     setCurrentQuestionIndex(
       nextIndex
     );
 
-    setLoading(true)
+    setLoading(true);
 
     const nextQuestion =
       getNextQuestion({
@@ -275,6 +310,8 @@ export default function InterviewPage() {
         "No more questions available."
       );
 
+      setLoading(false);
+
       return;
     }
 
@@ -282,84 +319,15 @@ export default function InterviewPage() {
       nextQuestion.question
     );
 
-    setLoading(false)
-
     setCurrentKeywords(
       nextQuestion.keywords
     );
 
-    setQuestionHistory((prev) => {
-      if (
-        prev.includes(
-          nextQuestion.question
-        )
-      ) {
-        return prev;
-      }
-
-      return [
-        ...prev,
-        nextQuestion.question,
-      ];
-    });
-
-    if (nextIndex >= TOTAL_QUESTIONS) {
-      setFinishingInterview(true);
-      const averageScore =
-        scores.length > 0
-          ? Math.round(
-            scores.reduce(
-              (a, b) => a + b,
-              0
-            ) / scores.length
-          )
-          : 0;
-
-
-
-      await saveInterview(
-        averageScore
-      );
-
-      setFinishingInterview(false);
-
-      setInterviewComplete(true);
-      toast.success("Interview Completed :)")
-      return;
-    }
-
-    // setLoading(true);
-
-    // const response = await fetch(
-    //   "/api/interview",
-    //   {
-    //     method: "POST",
-
-    //     headers: {
-    //       "Content-Type":
-    //         "application/json",
-    //     },
-
-    //     body: JSON.stringify({
-    //       topic,
-    //       index: nextIndex,
-    //     }),
-    //   }
-    // );
-
-    // const data = await response.json();
-
-    // setQuestion(nextQuestion.question);
-
-    // setQuestionHistory((prev) => {
-    //   if (prev.includes(nextQuestion.question)) {
-    //     return prev;
-    //   }
-
-    //   return [...prev, nextQuestion.question];
-    // });
-
-    // setLoading(false);
+    setQuestionHistory((prev) => [
+      ...prev,
+      nextQuestion.question,
+    ]);
+    setLoading(false);
   }
 
 
@@ -513,10 +481,7 @@ export default function InterviewPage() {
           topic,
           score: finalScore,
           questions:
-            questionHistory.slice(
-              0,
-              answerHistory.length
-            ),
+            questionHistory,
           answers: answerHistory,
           feedback: feedbackHistory,
         });
