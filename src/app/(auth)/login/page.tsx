@@ -15,6 +15,7 @@ export default function LoginPage() {
 
     const [loading, setLoading] = useState(false);
 
+
     async function handleLogin() {
         setLoading(true);
 
@@ -39,12 +40,12 @@ export default function LoginPage() {
     }
 
     return (
+        <>
         <main className="flex min-h-screen items-center justify-center bg-black px-6 text-white">
             <div className="w-full max-w-md rounded-2xl border border-neutral-900 bg-neutral-950 p-8">
                 <h1 className="text-3xl font-bold">
                     Login
                 </h1>
-
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
@@ -89,8 +90,10 @@ export default function LoginPage() {
                             Create account
                         </a>
                     </p>
+
                 </form>
             </div>
         </main>
+        </>
     );
 }

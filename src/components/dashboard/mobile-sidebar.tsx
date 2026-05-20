@@ -24,7 +24,7 @@ export function MobileSidebar() {
       {open && (
         <div className="fixed inset-0 z-50 flex">
           <div className="h-full">
-            <Sidebar mobile />
+            <Sidebar mobile onNavigate={()=>setOpen(false)}/>
           </div>
 
           <div
