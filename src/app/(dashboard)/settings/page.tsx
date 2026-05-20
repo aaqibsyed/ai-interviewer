@@ -1,31 +1,60 @@
-import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent } from "@/components/ui/card";
+import { PageHeader } from "@/components/ui/page-header";
+import { createClient } from "@/lib/supabase/server";
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
-    <div className="space-y-8 p-10">
+    <div className="space-y-8 p-6">
       <PageHeader
         title="Settings"
-        description="Manage your interview experience."
+        description="Manage your account and future interview preferences."
       />
 
       <Card>
         <CardContent>
-          <h2 className="text-2xl font-semibold">
-            ⚙️ Settings Coming Soon
+          <h2 className="text-xl font-semibold">
+            Profile
           </h2>
 
           <p className="mt-4 text-neutral-400">
-            Future updates will include:
+            Email
           </p>
 
-          <ul className="mt-4 space-y-2 text-neutral-300">
-            <li>• Theme preferences</li>
-            <li>• Interview difficulty preferences</li>
-            <li>• Preferred interview duration</li>
-            <li>• Notification settings</li>
-            <li>• Export interview reports</li>
+          <p className="font-medium">
+            {user?.email}
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent>
+          <h2 className="text-xl font-semibold">
+            Interview Preferences
+          </h2>
+
+          <ul className="mt-4 space-y-3 text-neutral-400">
+            <li>Default Difficulty (Coming Soon)</li>
+            <li>Interview Length (Coming Soon)</li>
+            <li>Preferred Topics (Coming Soon)</li>
           </ul>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent>
+          <h2 className="text-xl font-semibold">
+            Account
+          </h2>
+
+          <p className="mt-4 text-neutral-400">
+            More account management options will be available in future updates.
+          </p>
         </CardContent>
       </Card>
     </div>
