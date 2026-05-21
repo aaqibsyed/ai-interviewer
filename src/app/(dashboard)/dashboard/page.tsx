@@ -1,7 +1,11 @@
 import { InterviewCard } from "@/components/interview/interview-card";
 import { createClient } from "@/lib/supabase/server";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { RecentInterviews } from "@/components/dashboard/recent-interviews";
+
+export const metadata = {
+  title:
+    "Dashboard",
+};
 
 const interviews = [
   {

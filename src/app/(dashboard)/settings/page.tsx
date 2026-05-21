@@ -2,6 +2,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { createClient } from "@/lib/supabase/server";
 
+export const metadata = {
+  title:
+    "Settings",
+};
+
 export default async function SettingsPage() {
   const supabase = await createClient();
 
