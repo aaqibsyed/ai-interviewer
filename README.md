@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎤 AI Interviewer
 
-## Getting Started
+An AI-powered mock interview platform that helps users practice technical and behavioral interviews through real-time voice conversations. Built with Next.js, TypeScript, Tailwind CSS, and Vapi AI.
 
-First, run the development server:
+## 🚀 Live Demo
+
+https://ai-interviewer-aj.vercel.app
+
+## ✨ Features
+
+- 🤖 AI-generated interview questions
+- 🎙️ Real-time voice conversations with AI interviewer
+- 👤 Personalized interview experience
+- 📊 Instant feedback and performance insights
+- 💻 Technical and behavioral interview support
+- 📱 Responsive design for desktop and mobile
+- ⚡ Fast and modern UI built with Next.js
+
+## 🛠️ Tech Stack
+
+### Frontend
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+### Backend & Database
+- Supabase
+
+### Deployment
+- Vercel
+
+## 📂 Project Structure
+
+```bash
+src/
+├── app/
+├── components/
+├── constants/
+├── lib/
+├── data/
+├── styles/
+└── types/
+```
+
+## ⚙️ Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/aaqibsyed/ai-interviewer.git
+cd ai-interviewer
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create a `.env.local` file and add the required environment variables:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📸 Screenshots
+<img width="1510" height="729" alt="image" src="https://github.com/user-attachments/assets/926be21a-7ac3-4037-a28d-d162594b780c" />
+<img width="1512" height="711" alt="image" src="https://github.com/user-attachments/assets/a8f65494-db91-4c3c-941c-ab0d837b8ad4" />
+<img width="1505" height="697" alt="image" src="https://github.com/user-attachments/assets/b6795d54-b45d-4309-9d14-a5feecbb4902" />
+<img width="1511" height="701" alt="image" src="https://github.com/user-attachments/assets/fbe54560-3a1e-486c-a6bb-a065bb35c667" />
 
-## Learn More
+## 🎯 Use Cases
 
-To learn more about Next.js, take a look at the following resources:
+- Software engineering interview preparation
+- Behavioral interview practice
+- Communication skill improvement
+- Campus placement preparation
+- Professional job interview readiness
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🤝 Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Contributions are welcome.
 
-## Deploy on Vercel
+1. Fork the repository
+2. Create a feature branch
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+git checkout -b feature/new-feature
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Commit your changes
+
+```bash
+git commit -m "Add new feature"
+```
+
+4. Push to GitHub
+
+```bash
+git push origin feature/new-feature
+```
+
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+Built with ❤️ using Next.js
