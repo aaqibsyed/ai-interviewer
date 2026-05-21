@@ -7,7 +7,7 @@ export default function sitemap():
   return [
     {
       url:
-        "https://your-domain.com",
+        "https://ai-interviewer-aj.vercel.app/",
       priority: 1,
     },
   ];

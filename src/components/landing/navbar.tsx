@@ -7,10 +7,10 @@ import { createClient } from "@/lib/supabase/server";
 import { MobileNav } from "./mobile-nav";
 
 interface NavbarProps {
-  showMobileNav?: boolean
+  showProductNavData?: boolean
 }
 
-export async function Navbar({ showMobileNav = false }: NavbarProps) {
+export async function Navbar({ showProductNavData = false }: NavbarProps) {
   const supabase = await createClient();
 
   const {
@@ -20,7 +20,7 @@ export async function Navbar({ showMobileNav = false }: NavbarProps) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-neutral-900 bg-black/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        {showMobileNav && <MobileNav />}
+        {showProductNavData && <MobileNav />}
         <Link
           href="/"
           className="text-lg font-semibold"
@@ -28,12 +28,14 @@ export async function Navbar({ showMobileNav = false }: NavbarProps) {
           AI Interviewer
         </Link>
 
-        <nav className="hidden gap-6 text-sm text-neutral-400 md:flex">
-          <Link href="#features">Features</Link>
-          <Link href="#about">About</Link>
-          <Link href="#pricing">Pricing</Link>
-          <Link href="#contact">Contact</Link>
-        </nav>
+        {showProductNavData &&
+          <nav className="hidden gap-6 text-sm text-neutral-400 md:flex">
+            <Link href="#features">Features</Link>
+            <Link href="#about">About</Link>
+            <Link href="#pricing">Pricing</Link>
+            <Link href="#contact">Contact</Link>
+          </nav>
+        }
 
 
         {user ? (
@@ -54,10 +56,11 @@ export async function Navbar({ showMobileNav = false }: NavbarProps) {
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-800 text-sm font-semibold text-white">
                 {user.email?.charAt(0).toUpperCase()}
               </div>
-
-              <p className="text-sm text-white">
-                {user.email}
-              </p>
+              {!showProductNavData &&
+                <p className="text-sm text-white">
+                  {user.email}
+                </p>
+              }
             </div>
           </div>
         ) : (
