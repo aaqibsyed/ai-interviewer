@@ -4,7 +4,7 @@ import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    "https://your-domain.com"
+    "https://ai-interviewer-aj.vercel.app/"
   ),
 
   title: {
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
 
   alternates: {
     canonical:
-      "https://your-domain.com",
+      "https://ai-interviewer-aj.vercel.app/",
   },
 
   openGraph: {
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
 
     locale: "en_US",
 
-    url: "https://your-domain.com",
+    url: "https://ai-interviewer-aj.vercel.app/",
 
     title:
       "AI Interviewer | Ace Your Frontend Interviews",

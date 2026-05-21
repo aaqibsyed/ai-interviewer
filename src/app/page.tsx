@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="min-h-screen bg-black pt-16 text-white">
-      <Navbar showMobileNav={true} />
+      <Navbar showProductNavData={true} />
 
       <section className="mx-auto flex max-w-7xl flex-col items-center justify-center px-6 py-32 text-center">
         <div className="rounded-full border border-neutral-800 px-4 py-1 text-sm text-neutral-400">

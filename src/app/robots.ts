@@ -11,6 +11,6 @@ export default function robots():
     },
 
     sitemap:
-      "https://your-domain.com/sitemap.xml",
+      "https://ai-interviewer-aj.vercel.app//sitemap.xml",
   };
 }
