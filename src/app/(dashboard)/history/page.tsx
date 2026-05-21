@@ -2,8 +2,12 @@ import { ProgressChart } from "@/components/history/progress-chart";
 import { StatCard } from "@/components/ui/stat-card";
 import { createClient }
     from "@/lib/supabase/server";
-import Link from "next/link";
 import { HistoryList } from "./history-list";
+
+export const metadata = {
+  title:
+    "Interview History",
+};
 
 export default async function HistoryPage() {
 

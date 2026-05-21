@@ -1,12 +1,26 @@
+import { About } from "@/components/landing/about";
+import { Contact } from "@/components/landing/contact";
 import { Features } from "@/components/landing/features";
 import { Footer } from "@/components/landing/footer";
 import { Navbar } from "@/components/landing/navbar";
+import { Pricing } from "@/components/landing/pricing";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title:
+    "AI Interviewer | Mock Interviews for Frontend Developers",
+
+  description:
+    "Prepare for React, JavaScript, Next.js, and behavioral interviews with AI-generated feedback, adaptive questions, and detailed performance reports.",
+};
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-white">
-      <Navbar />
+    <main className="min-h-screen bg-black pt-16 text-white">
+      <Navbar showMobileNav={true} />
 
       <section className="mx-auto flex max-w-7xl flex-col items-center justify-center px-6 py-32 text-center">
         <div className="rounded-full border border-neutral-800 px-4 py-1 text-sm text-neutral-400">
@@ -23,17 +37,28 @@ export default function Home() {
         </p>
 
         <div className="mt-10 flex gap-4">
-          <Button size="lg">
-            Start Free
-          </Button>
+          <Link href="/signup">
+            <Button size="lg">
+              Start Free
+            </Button>
+          </Link>
 
-          <Button variant="outline" size="lg">
-            Watch Demo
-          </Button>
+          <Link href="#features">
+            <Button
+              variant="outline"
+              size="lg"
+            >
+              See Features
+            </Button>
+          </Link>
         </div>
       </section>
 
       <Features />
+
+      <About />
+      <Pricing />
+      <Contact />
 
       <Footer />
     </main>

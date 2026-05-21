@@ -1,6 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 
+export const metadata = {
+  title:
+    "Interview Hub",
+};
+
 export default function InterviewHubPage() {
   return (
     <div className="space-y-8 p-6">
